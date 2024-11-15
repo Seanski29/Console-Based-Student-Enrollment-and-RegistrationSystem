@@ -19,7 +19,7 @@ public class Enrollment {
     }
 
     private void initializeData() {
-        // Hardcoded student data
+
         students.add(new Student("alice", "pass1", "S101", true));
         students.add(new Student("bob", "pass2", "S102", false));
 
