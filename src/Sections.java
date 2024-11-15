@@ -16,6 +16,10 @@ public class Sections {
         return sectionCode;
     }
 
+    public String getInstructor() {
+        return instructor;
+    }
+
     public void addStudent(Student student) {
         enrolledStudents.add(student);
     }
