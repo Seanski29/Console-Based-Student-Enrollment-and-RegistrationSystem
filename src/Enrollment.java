@@ -20,16 +20,27 @@ public class Enrollment {
 
     private void initializeData() {
 
-        students.add(new Student("alice", "pass1", "S101", true));
-        students.add(new Student("bob", "pass2", "S102", false));
+        students.add(new Student("Sean", "password", "23-36324", true));
+        students.add(new Student("Axle", "password", "23-17423", false));
+        students.add(new Student("Erll", "password", "23-30129", true));
+        students.add(new Student("Jarell", "password", "23-31234", false));
 
         // Hardcoded subject data
-        subjects.add(new Subjects("CS101", "Programming 101", 30));
-        subjects.add(new Subjects("CS102", "Data Structures", 25));
+        subjects.add(new Subjects("CS111", "Computer Programming", 40));
+        subjects.add(new Subjects("CS131", "Data Structures and Algorithms", 40));
+        subjects.add(new Subjects("MATH111", "Linear Algebra", 30));
+        subjects.add(new Subjects("FILI102", "Filipino sa Iba't Ibang Disiplina", 30));
+        subjects.add(new Subjects("GeD105", "Readings in Philippine History", 30));
+        subjects.add(new Subjects("GeD109", "Science, Technology and Society", 30));
+        subjects.add(new Subjects("PE102", "Rhythmic Activities", 30));
+        subjects.add(new Subjects("NSTP121", "National Service Training Program 2", 50));
 
         // Hardcoded section data
-        sections.add(new Sections("A", "Prof. Smith"));
-        sections.add(new Sections("B", "Prof. Johnson"));
+        sections.add(new Sections("BSIT-1201"));
+        sections.add(new Sections("BSIT-1202"));
+        sections.add(new Sections("BSIT-1203"));
+        sections.add(new Sections("BSIT-1204"));
+        sections.add(new Sections("BSIT-1205"));
     }
 
     public void run() {
@@ -37,7 +48,9 @@ public class Enrollment {
         int choice = 0;
 
         while (choice != 3) {
-            System.out.println("Welcome to the Enrollment System");
+            System.out.println("Welcome to the BSU-TNEU Lipa Campus");
+            System.out.println("First Year | SECOND SEMESTER Batch 2024-2025");
+            System.out.println("Please Input the number below to Login");
             System.out.println("1. Student Login\n2. Admin Login\n3. Exit");
             try {
                 choice = scanner.nextInt();
@@ -69,7 +82,7 @@ public class Enrollment {
 
         for (Student student : students) {
             if (student.login(username, password)) {
-                System.out.println("Login successful!");
+                System.out.println("Login successful. Welcome!");
                 handleStudentOperations(scanner, student);
                 return;
             }
@@ -125,7 +138,7 @@ public class Enrollment {
         System.out.println("Available subjects: ");
         for (int i = 0; i < subjects.size(); i++) {
             Subjects subject = subjects.get(i);
-            System.out.println((i + 1) + ". " + subject.getSubjectName() + " (Seats available: " + subject.hasAvailableSeats() + ")");
+            System.out.println((i + 1) + ". " + subject.getSubjectName() + " (Slots available: " + subject.hasAvailableSeats() + ")");
         }
 
         System.out.print("Enter the number of the subject to enroll in: ");
@@ -136,7 +149,7 @@ public class Enrollment {
                 chosenSubject.enrollStudent();
                 System.out.println("Successfully enrolled in " + chosenSubject.getSubjectName());
             } else {
-                System.out.println("Sorry, no seats available for " + chosenSubject.getSubjectName());
+                System.out.println("Sorry, no Slots available for " + chosenSubject.getSubjectName());
             }
         } else {
             System.out.println("Invalid subject choice.");
@@ -147,7 +160,7 @@ public class Enrollment {
         System.out.println("Available sections: ");
         for (int i = 0; i < sections.size(); i++) {
             Sections section = sections.get(i);
-            System.out.println((i + 1) + ". Section " + section.getSectionCode() + " (Instructor: " + section.getInstructor() + ")");
+            System.out.println((i + 1) + ". Section " + section.getSectionCode());
         }
 
         System.out.print("Enter the number of the section to join: ");
@@ -216,7 +229,7 @@ public class Enrollment {
     private void viewAllSections() {
         System.out.println("List of all sections:");
         for (Sections section : sections) {
-            System.out.println("Section Code: " + section.getSectionCode() + ", Instructor: " + section.getInstructor());
+            System.out.println("Section Code: " + section.getSectionCode());
         }
     }
 

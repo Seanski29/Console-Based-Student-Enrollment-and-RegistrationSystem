@@ -1,12 +1,12 @@
 public class Subjects {
     private String subjectCode;
     private String subjectName;
-    private int availableSeats;
+    private int availableSlots;
 
-    public Subjects(String subjectCode, String subjectName, int availableSeats) {
+    public Subjects(String subjectCode, String subjectName, int availableSlots) {
         this.subjectCode = subjectCode;
         this.subjectName = subjectName;
-        this.availableSeats = availableSeats;
+        this.availableSlots = availableSlots;
     }
 
     public String getSubjectCode() {
@@ -18,13 +18,13 @@ public class Subjects {
     }
 
     public boolean hasAvailableSeats() {
-        return availableSeats > 0;
+        return availableSlots > 0;
     }
 
     // Method to enroll a student, decreases seat count
     public void enrollStudent() {
         if (hasAvailableSeats()) {
-            availableSeats--;
+            availableSlots--;
         } else {
             System.out.println("No seats available for " + subjectName);
         }
