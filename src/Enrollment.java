@@ -22,6 +22,39 @@ public class Enrollment {
         }
         return -1;
     }
+    public void displaySubjects() {
+        String query = "SELECT subject_code, subject_name FROM subjects";
+        try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(query)) {
+            System.out.println("==== Subjects ====");
+            while (rs.next()) {
+                System.out.println("Subject Code: " + rs.getString("subject_code") + "   Subject Name: " + rs.getString("subject_name"));
+            }
+        } catch (SQLException e) {
+            System.out.println("Failed to display subjects: " + e.getMessage());
+        }
+    }
+
+
+    public void displayProfessors() {
+        String query = "SELECT p.professor_name, s.subject_code FROM professors p " +
+                       "LEFT JOIN subjects s ON p.professor_id = s.professor_id";
+
+        try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(query)) {
+            System.out.println("==== Professors ====");
+            int count = 0;
+            while (rs.next() && count < 7) {  // Limit to 7 professors
+                System.out.println("Subject Code: " + rs.getString("subject_code") +
+                                   ", Professor Name: " + rs.getString("professor_name"));
+                count++;
+            }
+        } catch (SQLException e) {
+            System.out.println("Failed to display professors: " + e.getMessage());
+        }
+    }
+
+
+
+
 
     public void registerStudentInSection(Scanner scanner, int studentId) {
         System.out.println("Available Sections:");
@@ -91,3 +124,7 @@ public class Enrollment {
         }
     }
 }
+
+
+
+

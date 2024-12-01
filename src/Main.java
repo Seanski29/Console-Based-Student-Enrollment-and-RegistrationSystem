@@ -62,17 +62,21 @@ public class Main {
             System.out.println("1. Register for Section");
             System.out.println("2. View Your Details");
             System.out.println("3. Switch Section");
-            System.out.println("4. Logout");
+            System.out.println("4. View Subjects");  // New option
+            System.out.println("5. View Professors");  // New option
+            System.out.println("6. Logout");
             System.out.print("Choose an option: ");
 
             int choice = scanner.nextInt();
-            scanner.nextLine(); // Consume newline
+
 
             switch (choice) {
                 case 1 -> enrollment.registerStudentInSection(scanner, studentId);
                 case 2 -> enrollment.viewStudentDetails(studentId);
                 case 3 -> enrollment.switchSection(scanner, studentId);
-                case 4 -> {
+                case 4 -> enrollment.displaySubjects();
+                case 5 -> enrollment.displayProfessors();
+                case 6 -> {
                     System.out.println("Logging out...");
                     return;
                 }
@@ -81,4 +85,5 @@ public class Main {
         }
     }
 }
+
 
