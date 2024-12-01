@@ -1,12 +1,12 @@
 public class Subjects {
     private String subjectCode;
     private String subjectName;
-    private int availableSlots;
+    private int professorId; // Referring to professor_id in the database
 
-    public Subjects(String subjectCode, String subjectName, int availableSlots) {
+    public Subjects(String subjectCode, String subjectName, int professorId) {
         this.subjectCode = subjectCode;
         this.subjectName = subjectName;
-        this.availableSlots = availableSlots;
+        this.professorId = professorId;
     }
 
     public String getSubjectCode() {
@@ -17,16 +17,7 @@ public class Subjects {
         return subjectName;
     }
 
-    public boolean hasAvailableSeats() {
-        return availableSlots > 0;
-    }
-
-    // Method to enroll a student, decreases seat count
-    public void enrollStudent() {
-        if (hasAvailableSeats()) {
-            availableSlots--;
-        } else {
-            System.out.println("No seats available for " + subjectName);
-        }
+    public int getProfessorId() {
+        return professorId;
     }
 }

@@ -1,4 +1,4 @@
-public class User {
+public abstract class User {
     protected String username;
     protected String password;
 
@@ -7,6 +7,7 @@ public class User {
         this.password = password;
     }
 
+    // Login validation method
     public boolean login(String username, String password) {
         return this.username.equals(username) && this.password.equals(password);
     }
