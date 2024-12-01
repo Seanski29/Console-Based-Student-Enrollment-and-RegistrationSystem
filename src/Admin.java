@@ -9,11 +9,11 @@ public class Admin {
 
     // Admin login logic
     public boolean login(String username, String password) {
-        // Placeholder login logic for Admin
-        return "admin".equals(username) && "admin123".equals(password); // Simplified for demo
+
+        return "admin".equals(username) && "admin123".equals(password); // Hardcoded
     }
 
-    // View student info based on student ID
+    // View inf
     public void viewStudentInfo(int studentId) {
         String query = "SELECT * FROM students WHERE student_id = ?";
         try (PreparedStatement ps = connection.prepareStatement(query)) {
@@ -29,9 +29,8 @@ public class Admin {
         }
     }
 
-    // Manage sections (e.g., add, remove sections)
     public void manageSections() {
-        // Placeholder logic for managing sections
+        // in Maintenance
         System.out.println("Managing sections...");
     }
 }
