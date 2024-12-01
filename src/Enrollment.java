@@ -1,54 +1,93 @@
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.Scanner;
 
 public class Enrollment {
     private Connection connection;
 
     public Enrollment() {
-        connection = DatabaseConnection.connect(); // Corrected method call
+        connection = DatabaseConnection.connect();
     }
 
-    // Register student (based on regular or irregular status)
-    public void registerStudent(Student student) {
-        if (student.isRegular()) {
-            registerRegularStudent(student); // Regular student registration
-        } else {
-            registerIrregularStudent(student); // Irregular student registration
+    public int authenticateStudent(String username, String password) {
+        String query = "SELECT student_id FROM students WHERE username = ? AND password = ?";
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setString(1, username);
+            ps.setString(2, password);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("student_id");
+            }
+        } catch (SQLException e) {
+            System.out.println("Authentication failed: " + e.getMessage());
+        }
+        return -1;
+    }
+
+    public void registerStudentInSection(Scanner scanner, int studentId) {
+        System.out.println("Available Sections:");
+        displayAvailableSections();
+
+        System.out.print("Enter the Section Code: ");
+        String sectionCode = scanner.nextLine();
+
+        String query = "UPDATE students SET sections = ? WHERE student_id = ?";
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setString(1, sectionCode);
+            ps.setInt(2, studentId);
+            ps.executeUpdate();
+            System.out.println("Successfully registered in section: " + sectionCode);
+        } catch (SQLException e) {
+            System.out.println("Failed to register section: " + e.getMessage());
         }
     }
 
-    // Regular student registration (auto enroll in all subjects)
-    private void registerRegularStudent(Student student) {
-        System.out.println("Regular student: Registering in all subjects...");
-
-        // Example: Assign a default section for regular students
-        Sections defaultSection = new Sections(1, "BSIT1201", 30); // Replace with actual section assignment logic
-        student.setSection(defaultSection);  // Assign the section to the student
-
-        // Update section's available slots
-        defaultSection.addStudent(student);
-    }
-
-    // Irregular student registration (choose section and subjects)
-    private void registerIrregularStudent(Student student) {
-        System.out.println("Irregular student: Choose section and subjects.");
-        // Add logic here for section and subject selection
-    }
-
-    // View all available sections and subjects
-    public void viewAvailableSectionsAndSubjects() {
-        // Example query to fetch available sections
-        String query = "SELECT * FROM sections WHERE available_slots > 0";
+    public void viewStudentDetails(int studentId) {
+        String query = """
+            SELECT s.username, s.sr_code, s.is_regular, ss.section_code
+            FROM students s
+            LEFT JOIN sections ss ON s.sections = ss.section_code
+            WHERE s.student_id = ?
+            """;
         try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setInt(1, studentId);
             ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                System.out.println("Section: " + rs.getString("section_code"));
-                System.out.println("Available Slots: " + rs.getInt("available_slots"));
+            if (rs.next()) {
+                System.out.println("Username: " + rs.getString("username"));
+                System.out.println("SR Code: " + rs.getString("sr_code"));
+                System.out.println("Regular Status: " + (rs.getBoolean("is_regular") ? "Regular" : "Irregular"));
+                System.out.println("Section Code: " + rs.getString("section_code"));
             }
         } catch (SQLException e) {
-            System.out.println("Error fetching sections: " + e.getMessage());
+            System.out.println("Failed to view student details: " + e.getMessage());
+        }
+    }
+
+    public void displayAvailableSections() {
+        String query = "SELECT section_code, max_slots FROM sections";
+        try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(query)) {
+            while (rs.next()) {
+                System.out.println(rs.getString("section_code") + " - Max Slots: " + rs.getInt("max_slots"));
+            }
+        } catch (SQLException e) {
+            System.out.println("Failed to display sections: " + e.getMessage());
+        }
+    }
+
+    public void switchSection(Scanner scanner, int studentId) {
+        System.out.println("Available Sections:");
+        displayAvailableSections();
+
+        System.out.print("Enter new Section Code: ");
+        String newSection = scanner.nextLine();
+
+        String query = "UPDATE students SET sections = ? WHERE student_id = ?";
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setString(1, newSection);
+            ps.setInt(2, studentId);
+            ps.executeUpdate();
+            System.out.println("Section switched successfully.");
+        } catch (SQLException e) {
+            System.out.println("Failed to switch section: " + e.getMessage());
         }
     }
 }
