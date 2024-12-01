@@ -2,6 +2,7 @@
 
 ## Overview
 HELLO! We are the BSIT 2102 | Group 4 from BSU TNEU Lipa Campus here to showcase our semestral final project for Object Oriented Programming CS211
+
 The Console-Based-Student-Enrollment-and-RegistrationSystem is a Java-based console application designed for managing student enrollments in sections, subjects, and professors. 
 It allows admins to manage sections and students, while students can register for sections, switch sections, and view their details. Additionally, students can view available subjects and professors.
 
