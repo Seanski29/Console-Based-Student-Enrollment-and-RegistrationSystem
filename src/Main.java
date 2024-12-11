@@ -35,9 +35,76 @@ public class Main {
 
         if (admin.login(username, password)) {
             System.out.println("Admin login successful!");
-            admin.manageSections();
+            adminPanel(scanner, admin);
         } else {
             System.out.println("Login failed.");
+        }
+    }
+
+    public static void adminPanel(Scanner scanner, Admin admin) {
+        while (true) {
+            System.out.println("\n==== Admin Panel ====");
+            System.out.println("1. Create User");
+            System.out.println("2. Read User");
+            System.out.println("3. Update User");
+            System.out.println("4. Delete User");
+            System.out.println("5. List All Users");
+            System.out.println("6. Logout");
+            System.out.print("Choose an option: ");
+            int choice = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (choice) {
+                case 1 -> {
+                    System.out.print("Enter username: ");
+                    String username = scanner.nextLine();
+                    System.out.print("Enter password: ");
+                    String password = scanner.nextLine();
+                    System.out.print("Enter SR Code: ");
+                    String srCode = scanner.nextLine();
+                    System.out.print("Is Regular (true/false): ");
+                    boolean isRegular = scanner.nextBoolean();
+                    scanner.nextLine();
+                    System.out.print("Enter section: ");
+                    String section = scanner.nextLine();
+                    admin.createUser(username, password, srCode, isRegular, section);
+                }
+                case 2 -> {
+                    System.out.print("Enter Student ID to read: ");
+                    int studentId = scanner.nextInt();
+                    scanner.nextLine();
+                    admin.readUser(studentId);
+                }
+                case 3 -> {
+                    System.out.print("Enter Student ID to update: ");
+                    int studentId = scanner.nextInt();
+                    scanner.nextLine();
+                    System.out.print("Enter new username: ");
+                    String username = scanner.nextLine();
+                    System.out.print("Enter new password: ");
+                    String password = scanner.nextLine();
+                    System.out.print("Enter new SR Code: ");
+                    String srCode = scanner.nextLine();
+                    System.out.print("Is Regular (true/false): ");
+                    boolean isRegular = scanner.nextBoolean();
+                    scanner.nextLine();
+                    System.out.print("Enter new section: ");
+                    String section = scanner.nextLine();
+                    admin.updateUser(studentId, username, password, srCode, isRegular, section);
+                }
+                case 4 -> {
+                    System.out.print("Enter Student ID to delete: ");
+                    int studentId = scanner.nextInt();
+                    scanner.nextLine();
+                    admin.deleteUser(studentId);
+                }
+                case 5 -> admin.listAllUsers();
+                case 6-> {
+                    System.out.println("Logging out...");
+                    return;
+                }
+                default -> System.out.println("Invalid choice. Try again.");
+            }
         }
     }
 
@@ -69,7 +136,6 @@ public class Main {
 
             int choice = scanner.nextInt();
 
-
             switch (choice) {
                 case 1 -> enrollment.registerStudentInSection(scanner, studentId);
                 case 2 -> enrollment.viewStudentDetails(studentId);
@@ -85,5 +151,3 @@ public class Main {
         }
     }
 }
-
-

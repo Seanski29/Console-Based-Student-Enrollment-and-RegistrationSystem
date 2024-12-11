@@ -37,14 +37,14 @@ public class Enrollment {
 
     public void displayProfessors() {
         String query = "SELECT p.professor_name, s.subject_code FROM professors p " +
-                       "LEFT JOIN subjects s ON p.professor_id = s.professor_id";
+                "LEFT JOIN subjects s ON p.professor_id = s.professor_id";
 
         try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(query)) {
             System.out.println("==== Professors ====");
             int count = 0;
             while (rs.next() && count < 7) {  // Limit to 7 professors
                 System.out.println("Subject Code: " + rs.getString("subject_code") +
-                                   ", Professor Name: " + rs.getString("professor_name"));
+                        ", Professor Name: " + rs.getString("professor_name"));
                 count++;
             }
         } catch (SQLException e) {
@@ -124,7 +124,3 @@ public class Enrollment {
         }
     }
 }
-
-
-
-

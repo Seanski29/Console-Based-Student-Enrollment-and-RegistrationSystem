@@ -7,6 +7,7 @@ public class Sections {
     private int maxSlots;
     private List<Student> enrolledStudents;
 
+
     public Sections(int sectionId, String sectionCode, int maxSlots) {
         this.sectionId = sectionId;
         this.sectionCode = sectionCode;
