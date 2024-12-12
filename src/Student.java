@@ -2,11 +2,13 @@ public class Student extends User {
     private String srCode;
     private boolean isRegular;
     private Sections section;  // Store current section
+    private int studentId;
 
-    public Student(String username, String password, String srCode, boolean isRegular) {
+    public Student(String username, String password, String srCode, boolean isRegular, int studentId) {
         super(username, password);
         this.srCode = srCode;
         this.isRegular = isRegular;
+        this.studentId = studentId;
     }
 
     public String getSrCode() {
@@ -20,6 +22,17 @@ public class Student extends User {
     // Set the section for the student
     public void setSection(Sections section) {
         this.section = section;
+    }
+
+    public int studentId() {
+        return studentId;
+    }
+    public int getStudentId() {
+        return studentId;
+    }
+
+    public void setId(int studentId) {
+        this.studentId = studentId;
     }
 
     // View student's details

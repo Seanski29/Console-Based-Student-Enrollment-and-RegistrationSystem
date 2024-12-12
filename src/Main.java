@@ -7,7 +7,7 @@ public class Main {
         Enrollment enrollment = new Enrollment();
 
         while (true) {
-            System.out.println("\n==== Enrollment System ====");
+            System.out.println("\n==== CICS (1stYear) Second Semester ====");
             System.out.println("1. Login as Admin");
             System.out.println("2. Login as Student");
             System.out.println("3. Exit");
@@ -43,7 +43,7 @@ public class Main {
 
     public static void adminPanel(Scanner scanner, Admin admin) {
         while (true) {
-            System.out.println("\n==== Admin Panel ====");
+            System.out.println("\n==== Admin ====");
             System.out.println("1. Create User");
             System.out.println("2. Read User");
             System.out.println("3. Update User");
@@ -99,7 +99,7 @@ public class Main {
                     admin.deleteUser(studentId);
                 }
                 case 5 -> admin.listAllUsers();
-                case 6-> {
+                case 6 -> {
                     System.out.println("Logging out...");
                     return;
                 }
@@ -114,18 +114,23 @@ public class Main {
         System.out.print("Enter your password: ");
         String password = scanner.nextLine();
 
-        int studentId = enrollment.authenticateStudent(username, password);
-        if (studentId > 0) {
-            System.out.println("Student login successful!");
-            studentOptions(scanner, enrollment, studentId);
+        Student student = enrollment.authenticateStudent(username, password, null);
+        if (student != null) {
+            if (student.isRegular()) {
+                System.out.println("Student login successful!");
+                studentOptions(scanner, enrollment, student.getStudentId(), student.isRegular());
+            } else {
+                System.out.println("Student login successful! IRREGULAR DETECTED");
+                irregstudentOptions(scanner, enrollment, student.getStudentId(), student.isRegular());
+            }
         } else {
             System.out.println("Login failed.");
         }
     }
 
-    public static void studentOptions(Scanner scanner, Enrollment enrollment, int studentId) {
+    private static void studentOptions(Scanner scanner, Enrollment enrollment, int studentId, Boolean isRegular) {
         while (true) {
-            System.out.println("\n==== Student Menu ====");
+            System.out.println("\n==== Spartan Menu ====");
             System.out.println("1. Register for Section");
             System.out.println("2. View Your Details");
             System.out.println("3. Switch Section");
@@ -134,9 +139,9 @@ public class Main {
             System.out.println("6. Logout");
             System.out.print("Choose an option: ");
 
-            int choice = scanner.nextInt();
+            int choice1 = scanner.nextInt();
 
-            switch (choice) {
+            switch (choice1) {
                 case 1 -> enrollment.registerStudentInSection(scanner, studentId);
                 case 2 -> enrollment.viewStudentDetails(studentId);
                 case 3 -> enrollment.switchSection(scanner, studentId);
@@ -150,4 +155,34 @@ public class Main {
             }
         }
     }
+
+        //FOR IRREGULARS ETO2
+        private static void irregstudentOptions(Scanner scanner, Enrollment enrollment, int studentId, Boolean isRegular) {
+            while (true) {
+                System.out.println("\n==== Spartan for Irregulars Menu ====");
+                System.out.println("1. Register for Section");
+                System.out.println("2. View Your Details");
+                System.out.println("3. Switch Section");
+                System.out.println("4. Register for a Subjects");  // New option
+                System.out.println("5. Delete a Registered Subject");  // New option
+                System.out.println("6. View Professors");  // New option
+                System.out.println("7. Logout");
+                System.out.print("Choose an option: ");
+                int choice = scanner.nextInt();
+                scanner.nextLine(); // Consume newline left-over
+                switch (choice) {
+                    case 1 -> enrollment.registerStudentInSection(scanner, studentId);
+                    case 2 -> enrollment.viewIrregDetails(studentId);
+                    case 3 -> enrollment.switchSection(scanner, studentId);
+                    case 4 -> enrollment.registerSubjects(scanner, studentId);
+                    case 5 -> enrollment.deleteRegisteredSubject(scanner, studentId);
+                    case 6 -> enrollment.displayProfessors();
+                    case 7 -> {
+                        System.out.println("Logging out...");
+                        return;
+                    }
+                    default -> System.out.println("Invalid choice. Try again.");
+                }
+            }
+        }
 }
