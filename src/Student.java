@@ -27,6 +27,7 @@ public class Student extends User {
     public int studentId() {
         return studentId;
     }
+
     public int getStudentId() {
         return studentId;
     }
@@ -53,5 +54,27 @@ public class Student extends User {
     public void switchSection() {
         System.out.println("Switching section...");
         // Logic for switching section
+    }
+
+    @Override
+    public void viewDetails() {
+        System.out.println("Student Details:");
+        System.out.println("Username: " + getUsername());
+        System.out.println("SR Code: " + srCode);
+        System.out.println("Is Regular: " + isRegular);
+        System.out.println("Student ID: " + studentId);
+    }
+
+    @Override
+    public void registerForSubject(String subjectCode) {
+        // Regular student registration logic
+        if (isRegular) {
+            System.out.println("Regular student registering for subject: " + subjectCode);
+        } else {
+            // Irregular student registration logic
+            System.out.println("Irregular student registering for subject: " + subjectCode);
+
+        }
+
     }
 }
